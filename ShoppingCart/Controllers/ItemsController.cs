@@ -19,9 +19,9 @@ namespace ShoppingCart.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllItems()
+        public IActionResult GetAllItems()
         {
-            IEnumerable<Item> items = await _service.GetAllItemsAsync();
+            IQueryable<Item> items = _service.GetAllItems();
 
             return new ObjectResult(items);
         }

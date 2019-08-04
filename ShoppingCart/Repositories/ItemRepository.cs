@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ShoppingCart.Database;
@@ -17,9 +18,9 @@ namespace ShoppingCart.Repositories
             _items = _context.Items;
         }
 
-        public async Task<IEnumerable<Item>> GetAllAsync()
+        public IQueryable<Item> GetAll()
         {
-            IEnumerable<Item> storedItems = await _items.FromSql("sp_GetAllItems").ToListAsync();
+            IQueryable<Item> storedItems = _items.FromSql("sp_GetAllItems");
 
             return storedItems;
         }

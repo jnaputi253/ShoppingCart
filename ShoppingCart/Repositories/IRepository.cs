@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ShoppingCart.Repositories
 {
     public interface IRepository<TEntity> where TEntity : class
     {
-        Task<IEnumerable<TEntity>> GetAllAsync();
+        IQueryable<TEntity> GetAll();
         Task<int> InsertAsync(TEntity newEntity);
         Task<TEntity> FindAsync(int id);
         Task UpdateAsync(TEntity updatedEntity);

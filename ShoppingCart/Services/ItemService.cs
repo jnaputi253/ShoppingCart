@@ -16,9 +16,9 @@ namespace ShoppingCart.Services
             _repository = repository;
         }
 
-        public async Task<IEnumerable<Item>> GetAllItemsAsync()
+        public IQueryable<Item> GetAllItems()
         {
-            IEnumerable<Item> storedItems = await _repository.GetAllAsync();
+            IQueryable<Item> storedItems = _repository.GetAll();
 
             return storedItems;
         }
