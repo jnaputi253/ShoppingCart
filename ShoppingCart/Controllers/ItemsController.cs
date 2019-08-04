@@ -26,8 +26,8 @@ namespace ShoppingCart.Controllers
             return new ObjectResult(items);
         }
 
-        [HttpGet("/{id:int}")]
-        public async Task<IActionResult> GetItemAsync([FromQuery] int id)
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetItemAsync([FromRoute] int id)
         {
             Item item = await _service.FindAsync(id);
 

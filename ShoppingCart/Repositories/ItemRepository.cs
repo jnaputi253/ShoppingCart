@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +37,11 @@ namespace ShoppingCart.Repositories
 
         public async Task<Item> FindAsync(int id)
         {
-            Item item = await _items.FindAsync(id);
+            var idParameter = new SqlParameter("@Id", id);
+
+
+            Item item = await _items.FromSql("EXEC sp_FindItemById @Id", idParameter)
+                .FirstOrDefaultAsync();
 
             return item;
         }
