@@ -5,7 +5,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE GetAllItems
+CREATE PROCEDURE sp_GetAllItems
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from

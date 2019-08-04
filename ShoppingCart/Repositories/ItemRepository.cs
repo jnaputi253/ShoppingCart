@@ -19,7 +19,7 @@ namespace ShoppingCart.Repositories
 
         public async Task<IEnumerable<Item>> GetAllAsync()
         {
-            IEnumerable<Item> storedItems = await _items.FromSql("GetAllItems").ToListAsync();
+            IEnumerable<Item> storedItems = await _items.FromSql("sp_GetAllItems").ToListAsync();
 
             return storedItems;
         }
