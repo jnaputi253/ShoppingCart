@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ShoppingCart.Database;
@@ -17,9 +17,11 @@ namespace ShoppingCart.Repositories
             _items = _context.Items;
         }
 
-        public IQueryable<Item> GetAll()
+        public async Task<IEnumerable<Item>> GetAllAsync()
         {
-            return _items;
+            IEnumerable<Item> storedItems = await _items.FromSql("GetAllItems").ToListAsync();
+
+            return storedItems;
         }
 
         public async Task<int> InsertAsync(Item newEntity)
@@ -46,6 +48,12 @@ namespace ShoppingCart.Repositories
         public async Task DeleteAsync(Item entityToDelete)
         {
             _context.Remove(entityToDelete);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteManyAsync(IEnumerable<Item> entitiesToDelete)
+        {
+            _items.RemoveRange(entitiesToDelete);
             await _context.SaveChangesAsync();
         }
 

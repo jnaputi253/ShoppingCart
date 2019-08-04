@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingCart.Entities;
@@ -18,9 +19,9 @@ namespace ShoppingCart.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllItems()
+        public async Task<IActionResult> GetAllItems()
         {
-            IQueryable<Item> items = _service.GetAllItems();
+            IEnumerable<Item> items = await _service.GetAllItemsAsync();
 
             return new ObjectResult(items);
         }
@@ -45,6 +46,52 @@ namespace ShoppingCart.Controllers
             int newItemId = await _service.InsertAsync(item);
 
             return CreatedAtAction(nameof(GetItemAsync), new {id = newItemId}, item);
+        }
+
+        [HttpPut("/update")]
+        public async Task<IActionResult> UpdateItemAsync(Item item)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            await _service.UpdateAsync(item);
+
+            return Ok();
+        }
+
+        [HttpDelete("delete/{id:int?}")]
+        public async Task<IActionResult> DeleteItemAsync(int? id)
+        {
+            if (!id.HasValue)
+            {
+                return BadRequest(new { message = "The selected item is invalid" });
+            }
+
+            Item item = await _service.FindAsync(id.Value);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            await _service.DeleteAsync(item);
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteItemsAsync([Bind(nameof(Item.Id))] IList<int> ids)
+        {
+            if (ids == null || !ids.Any())
+            {
+                return BadRequest(new {message = "You must provide a list of items" +
+                                                 " to delete"});
+            }
+
+            await _service.DeleteManyAsync(new List<Item>());
+
+            return Ok();
         }
     }
 }

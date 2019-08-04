@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ShoppingCart.Entities;
@@ -15,9 +16,11 @@ namespace ShoppingCart.Services
             _repository = repository;
         }
 
-        public IQueryable<Item> GetAllItems()
+        public async Task<IEnumerable<Item>> GetAllItemsAsync()
         {
-            return _repository.GetAll();
+            IEnumerable<Item> storedItems = await _repository.GetAllAsync();
+
+            return storedItems;
         }
 
         public async Task<int> InsertAsync(Item item)
@@ -47,6 +50,17 @@ namespace ShoppingCart.Services
         public async Task DeleteAsync(Item itemToDelete)
         {
             await _repository.DeleteAsync(itemToDelete);
+        }
+
+        public async Task DeleteManyAsync(IList<Item> itemsToDelete)
+        {
+
+            if (itemsToDelete == null || !itemsToDelete.Any())
+            {
+                throw new ArgumentException("You must provide a valid list of items to delete", nameof(itemsToDelete));
+            }
+
+            await _repository.DeleteManyAsync(itemsToDelete);
         }
     }
 }
