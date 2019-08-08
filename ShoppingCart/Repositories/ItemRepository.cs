@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -48,14 +47,22 @@ namespace ShoppingCart.Repositories
 
         public async Task UpdateAsync(Item updatedEntity)
         {
-            _items.Update(updatedEntity);
-            await _context.SaveChangesAsync();
+            var idParameter = new SqlParameter("@Id", updatedEntity.Id);
+            var nameParameter = new SqlParameter("@Name", updatedEntity.Name);
+            var descriptionParameter = new SqlParameter("@Description", updatedEntity.Description);
+            var priceParameter = new SqlParameter("@Price", updatedEntity.Price);
+
+            int updateCount = await _context.Database.ExecuteSqlCommandAsync(
+                "EXEC sp_UpdateItem @Id, @Name, @Description, @Price",
+                idParameter, nameParameter, descriptionParameter, priceParameter);
         }
 
-        public async Task DeleteAsync(Item entityToDelete)
+        public async Task DeleteAsync(int id)
         {
-            _context.Remove(entityToDelete);
-            await _context.SaveChangesAsync();
+            var idParameter = new SqlParameter("@Id", id);
+
+            await _context.Database
+                .ExecuteSqlCommandAsync("EXEC sp_DeleteItem @Id", idParameter);
         }
 
         public async Task DeleteManyAsync(IEnumerable<Item> entitiesToDelete)

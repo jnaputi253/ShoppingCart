@@ -47,9 +47,9 @@ namespace ShoppingCart.Services
             await _repository.UpdateAsync(item);
         }
 
-        public async Task DeleteAsync(Item itemToDelete)
+        public async Task DeleteAsync(int id)
         {
-            await _repository.DeleteAsync(itemToDelete);
+            await _repository.DeleteAsync(id);
         }
 
         public async Task DeleteManyAsync(IList<Item> itemsToDelete)

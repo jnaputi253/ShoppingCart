@@ -10,7 +10,7 @@ namespace ShoppingCart.Repositories
         Task<int> InsertAsync(TEntity newEntity);
         Task<TEntity> FindAsync(int id);
         Task UpdateAsync(TEntity updatedEntity);
-        Task DeleteAsync(TEntity entityToDelete);
+        Task DeleteAsync(int id);
         Task DeleteManyAsync(IEnumerable<TEntity> entitiesToDelete);
         Task<bool> ExistsAsync(int id);
     }

@@ -48,7 +48,7 @@ namespace ShoppingCart.Controllers
             return CreatedAtAction(nameof(GetItemAsync), new {id = newItemId}, item);
         }
 
-        [HttpPut("/update")]
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateItemAsync(Item item)
         {
             if (!ModelState.IsValid)
@@ -75,7 +75,7 @@ namespace ShoppingCart.Controllers
                 return NotFound();
             }
 
-            await _service.DeleteAsync(item);
+            await _service.DeleteAsync(id.Value);
 
             return Ok();
         }

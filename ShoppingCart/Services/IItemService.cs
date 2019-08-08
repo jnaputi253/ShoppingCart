@@ -11,7 +11,7 @@ namespace ShoppingCart.Services
         Task<int> InsertAsync(Item item);
         Task<Item> FindAsync(int id);
         Task UpdateAsync(Item item);
-        Task DeleteAsync(Item itemToDelete);
+        Task DeleteAsync(int id);
         Task DeleteManyAsync(IList<Item> itemsToDelete);
     }
 }
