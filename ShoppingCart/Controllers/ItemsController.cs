@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingCart.Entities;
@@ -76,20 +75,6 @@ namespace ShoppingCart.Controllers
             }
 
             await _service.DeleteAsync(id.Value);
-
-            return Ok();
-        }
-
-        [HttpDelete]
-        public async Task<IActionResult> DeleteItemsAsync([Bind(nameof(Item.Id))] IList<int> ids)
-        {
-            if (ids == null || !ids.Any())
-            {
-                return BadRequest(new {message = "You must provide a list of items" +
-                                                 " to delete"});
-            }
-
-            await _service.DeleteManyAsync(new List<Item>());
 
             return Ok();
         }

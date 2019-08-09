@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ShoppingCart.Database;
@@ -63,12 +64,6 @@ namespace ShoppingCart.Repositories
 
             await _context.Database
                 .ExecuteSqlCommandAsync("EXEC sp_DeleteItem @Id", idParameter);
-        }
-
-        public async Task DeleteManyAsync(IEnumerable<Item> entitiesToDelete)
-        {
-            _items.RemoveRange(entitiesToDelete);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<bool> ExistsAsync(int id)

@@ -51,16 +51,5 @@ namespace ShoppingCart.Services
         {
             await _repository.DeleteAsync(id);
         }
-
-        public async Task DeleteManyAsync(IList<Item> itemsToDelete)
-        {
-
-            if (itemsToDelete == null || !itemsToDelete.Any())
-            {
-                throw new ArgumentException("You must provide a valid list of items to delete", nameof(itemsToDelete));
-            }
-
-            await _repository.DeleteManyAsync(itemsToDelete);
-        }
     }
 }

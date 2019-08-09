@@ -11,7 +11,6 @@ namespace ShoppingCart.Repositories
         Task<TEntity> FindAsync(int id);
         Task UpdateAsync(TEntity updatedEntity);
         Task DeleteAsync(int id);
-        Task DeleteManyAsync(IEnumerable<TEntity> entitiesToDelete);
         Task<bool> ExistsAsync(int id);
     }
 }
